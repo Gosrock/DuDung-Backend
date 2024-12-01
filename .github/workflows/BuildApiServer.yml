@@ -31,7 +31,7 @@ jobs:
 
       #테스트 수행용 도커 컴포즈
       - name: Start containers
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Gradle Build
         uses: gradle/gradle-build-action@v2
