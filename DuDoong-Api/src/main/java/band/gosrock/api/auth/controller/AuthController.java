@@ -73,17 +73,17 @@ public class AuthController {
         // 스테이징, prod 서버에 배포된 클라이언트에 해당
         if (referer.contains(host)) {
             log.info("/oauth/kakao" + host);
-            String format = String.format("https://%s/", host);
+            String format = String.format("https://%s", host);
             if (referer.contains("admin")) {
-                // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://두둥.com/admin/
-                return registerUseCase.getKaKaoOauthLink(format + "admin");
+                // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://dudoong.com/admin
+                return registerUseCase.getKaKaoOauthLink(format + "/admin");
             }
             return registerUseCase.getKaKaoOauthLink(format);
         } else if (referer.contains("5173")) {
-            // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://localhost:5173/admin/
-            return registerUseCase.getKaKaoOauthLink(referer + "admin");
+            // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://localhost:5173/admin
+            return registerUseCase.getKaKaoOauthLink(referer + "/admin");
         }
-        // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://localhost:3000/
+        // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://localhost:3000
         return registerUseCase.getKaKaoOauthLink(referer);
     }
 
@@ -98,17 +98,17 @@ public class AuthController {
         // 스테이징, prod 서버에 배포된 클라이언트에 해당
         if (referer.contains(host)) {
             log.info("/oauth/kakao" + host);
-            String format = String.format("https://%s/", host);
+            String format = String.format("https://%s", host);
             if (referer.contains("admin")) {
-                return registerUseCase.getCredentialFromKaKao(code, format + "admin");
+                return registerUseCase.getCredentialFromKaKao(code, format + "/admin");
             }
             return registerUseCase.getCredentialFromKaKao(code, format);
         } else if (referer.contains("5173")) {
-            return registerUseCase.getCredentialFromKaKao(code, referer + "admin");
+            // 프론트 개발자가 로컬에서 어드민 테스트 할 때 해당 https://localhost:5173/admin
+            return registerUseCase.getCredentialFromKaKao(code, referer + "/admin");
         }
+        // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://localhost:3000/admin
         return registerUseCase.getCredentialFromKaKao(code, referer);
-
-        // 프론트 개발자가 로컬에서 개발 테스트 할 때 해당 https://localhost:3000/
     }
 
     @Operation(summary = "개발용 회원가입입니다 클라이언트가 몰라도 됩니다.", deprecated = true)
