@@ -69,11 +69,20 @@ public class IssuedTicketCustomRepositoryImpl implements IssuedTicketCustomRepos
     }
 
     @Override
-    public Long countPaidTicket(Long userId, Long issuedTicketId) {
+    public Long countPaidTicket(Long userId, Long ticketItemId) {
         return queryFactory
                 .select(count(issuedTicket))
                 .from(issuedTicket)
-                .where(eqUserId(userId), eqEventId(issuedTicketId), filterPaidTickets())
+                .where(eqUserId(userId), eqTicketItemId(ticketItemId), filterPaidTickets())
+                .fetchOne();
+    }
+
+    @Override
+    public Long countIssuedTicketByItemId(Long ticketItemId) {
+        return queryFactory
+                .select(count(issuedTicket))
+                .from(issuedTicket)
+                .where(eqTicketItemId(ticketItemId), filterPaidTickets())
                 .fetchOne();
     }
 
@@ -81,8 +90,8 @@ public class IssuedTicketCustomRepositoryImpl implements IssuedTicketCustomRepos
         return issuedTicket.issuedTicketStatus.in(ENTRANCE_COMPLETED, ENTRANCE_INCOMPLETE);
     }
 
-    private BooleanExpression eqEventId(Long issuedTicketId) {
-        return issuedTicket.itemInfo.ticketItemId.eq(issuedTicketId);
+    private BooleanExpression eqTicketItemId(Long ticketItemId) {
+        return issuedTicket.itemInfo.ticketItemId.eq(ticketItemId);
     }
 
     private BooleanExpression eqUserId(Long userId) {
