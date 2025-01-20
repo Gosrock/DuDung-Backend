@@ -194,6 +194,23 @@ public class OrderValidator {
         }
     }
 
+    public void validApproveOrderCreateTotalStock(Order order) {
+        TicketItem item = getItem(order);
+
+        List<Order> approveWaitingOrders =
+                orderAdaptor.findByEventIdAndOrderStatus(
+                        order.getEventId(), OrderStatus.PENDING_APPROVE);
+        Long approveWaitingTicketCount =
+                approveWaitingOrders.stream().map(Order::getTotalQuantity).reduce(0L, Long::sum);
+
+        Long alreadyIssuedCount = issuedTicketAdaptor.countIssuedTicketByItemId(order.getItemId());
+
+        Long expectQuantity =
+                alreadyIssuedCount + approveWaitingTicketCount + order.getTotalQuantity();
+
+        item.validEnoughQuantity(expectQuantity);
+    }
+
     /** 이벤트가 열려있는 상태인지 */
     public void validEventIsOpen(Event event) {
         event.validateNotOpenStatus();

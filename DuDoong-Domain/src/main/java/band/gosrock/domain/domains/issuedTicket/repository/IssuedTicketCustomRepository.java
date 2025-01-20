@@ -14,4 +14,6 @@ public interface IssuedTicketCustomRepository {
     Optional<IssuedTicket> find(Long issuedTicketId);
 
     Long countPaidTicket(Long userId, Long issuedTicketId);
+
+    Long countIssuedTicketByItemId(Long ticketItemId);
 }
