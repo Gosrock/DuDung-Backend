@@ -75,6 +75,10 @@ public class IssuedTicketAdaptor {
         return issuedTicketRepository.countPaidTicket(userId, itemId);
     }
 
+    public Long countIssuedTicketByItemId(Long itemId) {
+        return issuedTicketRepository.countIssuedTicketByItemId(itemId);
+    }
+
     public IssuedTicket queryByIssuedTicketNo(String issuedTicketNo) {
         return issuedTicketRepository
                 .findByIssuedTicketNo(issuedTicketNo)

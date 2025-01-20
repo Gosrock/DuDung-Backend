@@ -154,6 +154,7 @@ public class Order extends BaseTimeEntity {
                         .build();
         orderValidator.validCanCreate(order);
         orderValidator.validApproveStatePurchaseLimit(order);
+        orderValidator.validApproveOrderCreateTotalStock(order);
         order.calculatePaymentInfo();
         return order;
     }
