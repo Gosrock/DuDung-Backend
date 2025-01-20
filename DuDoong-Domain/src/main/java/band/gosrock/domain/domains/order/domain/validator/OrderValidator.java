@@ -203,12 +203,9 @@ public class OrderValidator {
         Long approveWaitingTicketCount =
                 approveWaitingOrders.stream().map(Order::getTotalQuantity).reduce(0L, Long::sum);
 
-        Long alreadyIssuedCount = issuedTicketAdaptor.countIssuedTicketByItemId(order.getItemId());
+        Long expectedApproveWaitQuantity = approveWaitingTicketCount + order.getTotalQuantity();
 
-        Long expectQuantity =
-                alreadyIssuedCount + approveWaitingTicketCount + order.getTotalQuantity();
-
-        item.validEnoughQuantity(expectQuantity);
+        item.validEnoughQuantity(expectedApproveWaitQuantity);
     }
 
     /** 이벤트가 열려있는 상태인지 */
